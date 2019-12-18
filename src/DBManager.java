@@ -1,3 +1,5 @@
+import dbtemplate.Dot;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -14,6 +16,14 @@ public class DBManager {
 
     public static void main(String[] args) {
         DBManager dbManager = new DBManager();
+        dbManager.deleteAll();
+        dbManager.addDot(1, 1, 1, "ERROR");
+        System.out.println(dbManager.getAll(true));
+        dbManager.deleteAll();
+        dbManager.addDot(2, 2, 1, "ERROR");
+        dbManager.addDot(3, 3, 2, "ERROR");
+        System.out.println(dbManager.getAll(true));
+        dbManager.deleteAll();
     }
 
     public String getAll(boolean isTable) {

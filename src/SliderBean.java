@@ -2,7 +2,7 @@ import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import java.io.Serializable;
 
-@ManagedBean(name = "slider")
+@ManagedBean(name = "slider", eager = true)
 @ApplicationScoped
 public class SliderBean implements Serializable {
     private String axis;

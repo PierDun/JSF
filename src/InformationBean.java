@@ -1,7 +1,7 @@
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
-@ManagedBean(name = "info")
+@ManagedBean(name = "info", eager = true)
 @ApplicationScoped
 public class InformationBean {
     private String name = "Анатолий Анищенко и Владимир Земнухов";

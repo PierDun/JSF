@@ -3,7 +3,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import java.util.Map;
 
-@ManagedBean(name = "controller")
+@ManagedBean(name = "controller", eager = true)
 @ApplicationScoped
 public class ControllerBean {
     private double x = 0;
