@@ -5,10 +5,9 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:ace="http://www.icefaces.org/icefaces/components">
+      xmlns:ace="http://www.icefaces.org/icefaces/components"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <h:outputScript library="js" name="valid.js" target="body"/>
-        <h:outputScript library="js" name="plotChange.js" target="body"/>
     </h:head>
 
     <h:body>
@@ -18,12 +17,14 @@
                     <div class="form-label">
                         <h:outputLabel>X VALUE:</h:outputLabel>
                     </div>
-                    <ace:sliderEntry></ace:sliderEntry>
+
+                    <p:inputText id="x" value="#{controller.x}"/>
+                    <p:slider for="x" minValue="-3.0" maxValue="3.0" step="0.5"/>
 
                     <div class="form-label">
                         <h:outputLabel>Y VALUE:</h:outputLabel>
                     </div>
-                    <h:inputText onchange="validY(this)" required="true" maxlength="8" id="y" value="#{controller.y}"/>
+                    <h:inputText onchange="validY()" required="true" maxlength="8" id="y" value="#{controller.y}"/>
 
                     <div class="form-label">
                         <h:outputLabel>R VALUE:</h:outputLabel>
@@ -43,14 +44,78 @@
                     </div>
                 </h:form>
 
+                <script type="text/javascript">
+                    let is_y_valid = false;
+                    let is_r_valid = false;
+
+                    function validY() {
+                        let element = document.getElementById("j_idt11:y");
+                        const errmsg = document.getElementById("error-message");
+                        let y = element.value.replace(/,/, '.');
+                        let isValid = isNumber(y);
+                        isValid = isValid &amp;&amp; (y &lt; 3) &amp;&amp; (y > -5);
+                        if (!isValid) {
+                            element.style.borderColor = "red";
+                        } else {
+                            element.style.borderColor = "green";
+                        }
+
+                        if (!isValid) {
+                            errmsg.textContent = "Error";
+                        } else {
+                            errmsg.textContent = " ";
+                        }
+
+                        is_y_valid = isValid;
+                        isValid = isValid &amp;&amp; is_r_valid;
+                        disableButtons(!isValid);
+                        return is_y_valid;
+                    }
+
+                    function validR() {
+                        let element = document.getElementById("j_idt11:r");
+                        const errmsg = document.getElementById("error-message-R");
+                        let r = element.value.replace(/,/, '.');
+                        let isValid = isNumber(r);
+                        isValid = isValid &amp;&amp; (r &lt;= 4) &amp;&amp; (r >= 1);
+
+                        if (!isValid) {
+                            element.style.borderColor = "red";
+                        } else {
+                            element.style.borderColor = "green";
+                        }
+
+                        if (!isValid) {
+                            errmsg.textContent = "Incorrect R";
+                        } else {
+                            errmsg.textContent = " ";
+                        }
+
+                        is_r_valid = isValid;
+                        isValid = isValid &amp;&amp; is_y_valid;
+                        disableButtons(!isValid);
+                        return is_r_valid;
+                    }
+
+                    function isNumber(n) {
+                        return !isNaN(parseFloat(n)) &amp;&amp; !isNaN(n - 0)
+                    }
+
+                    function disableButtons(isDisabled) {
+                        let buttonsList = document.querySelectorAll(".submit-button-container input[type=submit]");
+                        buttonsList.forEach(function (button) {
+                            button.disabled = isDisabled;
+                        });
+                    }
+
+                    disableButtons(true);
+                    validY();
+                    validR();
+                </script>
+
                 <ui:include src="template/plotTemplate.xhtml"/>
                 <ui:include src="template/tableTemplate.xhtml"/>
             </ui:define>
         </ui:composition>
-
-        <script type="text/javascript">
-            disableButtons(true);
-            validR();
-        </script>
     </h:body>
 </html>

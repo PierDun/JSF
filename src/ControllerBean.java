@@ -6,7 +6,7 @@ import java.util.Map;
 @ManagedBean(name = "controller", eager = true)
 @ApplicationScoped
 public class ControllerBean {
-    private double x = 0;
+    private float x = 0.0f;
     private String y = "0";
     private String r = "1";
     private String result = "";
@@ -20,7 +20,7 @@ public class ControllerBean {
     public void checkArea() {
         try {
             y = AreaValidator.validateY(y);
-            x = Double.parseDouble(AreaValidator.validateX(x + ""));
+            x = Float.parseFloat(AreaValidator.validateX(x + ""));
             r = AreaValidator.validateR(r);
             result = AreaValidator.checkArea(x + "", y, r);
         } catch (NumberFormatException e) {
@@ -54,19 +54,19 @@ public class ControllerBean {
     }
 
     public void resetBean() {
-        x = 0;
-        y = "0";
-        r = "1";
-        result = "";
+        setX(0.0f);
+        setY("0");
+        setR("1");
+        setResult("");
     }
 
 
-    public void setX(int x) {
-        this.x = x / 2.0;
+    public void setX(float x) {
+        this.x = x;
     }
 
-    public int getX() {
-        return (int) (x * 2 + 0.5);
+    public float getX() {
+        return x;
     }
     public void setY(String y) {
         this.y = y;
@@ -82,6 +82,10 @@ public class ControllerBean {
 
     public void setR(String r) {
         this.r = r;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
     }
 
     public String getResult() {
